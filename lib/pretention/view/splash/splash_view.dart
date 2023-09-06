@@ -1,7 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:food_app/pretention/view/home/home_view.dart';
 
-class SplashView extends StatelessWidget {
+import '../../../btm.dart';
+import '../../../core/app_image/image.dart';
+
+class SplashView extends StatefulWidget {
   const SplashView({super.key});
+
+  @override
+  State<SplashView> createState() => _SplashViewState();
+}
+
+class _SplashViewState extends State<SplashView> {
+  @override
+  void initState() {
+    Future.delayed(const Duration(seconds: 3), () {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const NavBarScreen(),
+        ),
+        (route) => false,
+      );
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +38,7 @@ class SplashView extends StatelessWidget {
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               child: Image.asset(
-                'assets/images/virtual/splashIcon.png',
+                AppImage.splashImage,
                 fit: BoxFit.fill,
               ),
             ),

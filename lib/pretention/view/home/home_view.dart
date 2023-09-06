@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
-import '../../../data/model/food.dart';
+import '../../../data/model/food_model.dart';
 import 'widgets/home_component/app_bar_home.dart';
 import 'widgets/home_component/popular_food.dart';
 import 'widgets/home_component/search_field_filter.dart';
@@ -24,15 +24,14 @@ class HomeView extends StatelessWidget {
                   HomeAppBar(),
                   SearchFieldFilter(),
                   SmallCategory(),
-                  SizedBox(height: 10),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Text(
-                      'Popular Items',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                  ),
+                  // Padding(
+                  //   padding: EdgeInsets.symmetric(horizontal: 10),
+                  //   child: Text(
+                  //     'المأكولات',
+                  //     style:
+                  //         TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  //   ),
+                  // ),
                   SizedBox(height: 10),
                 ],
               ),
@@ -46,7 +45,6 @@ class HomeView extends StatelessWidget {
               itemBuilder: (context, index, animation) {
                 return PopularFood(
                   foodItem: foodData[index],
-                  index: index,
                 ).animate(delay: (100 * index).ms).fade().slideX(
                       duration: 300.ms,
                       begin: -1,

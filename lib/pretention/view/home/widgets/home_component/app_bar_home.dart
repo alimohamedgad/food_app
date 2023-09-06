@@ -9,14 +9,14 @@ class HomeAppBar extends StatelessWidget {
       children: [
         ListTile(
           title: Text(
-            'Hi Ali',
+            'مرحبا على ',
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w300,
             ),
           ),
           subtitle: Text(
-            'Hungry Now?',
+            'هل انت جائع الان 🔥؟',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,

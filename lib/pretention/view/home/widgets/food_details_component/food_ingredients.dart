@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class FoodIngredients extends StatelessWidget {
   const FoodIngredients({
@@ -17,6 +18,10 @@ class FoodIngredients extends StatelessWidget {
           fontWeight: FontWeight.bold,
         ),
       ),
-    );
+    ).animate().fade().slideY(
+          duration: 400.ms,
+          begin: -1,
+          curve: Curves.easeInSine,
+        );
   }
 }

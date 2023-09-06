@@ -14,7 +14,7 @@ class AppBarFoodDetails extends StatelessWidget {
         children: [
           IconButton(
             icon: Icon(CupertinoIcons.back),
-            color: Colors.white,
+            color: Colors.black,
             onPressed: () {
               Navigator.pop(context);
             },
@@ -28,7 +28,7 @@ class AppBarFoodDetails extends StatelessWidget {
                   ));
             },
             icon: Icon(Icons.favorite_border),
-            color: Colors.white,
+            color: Colors.black,
           ),
         ],
       ),

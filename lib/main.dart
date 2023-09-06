@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'pretention/view/home/home_view.dart';
+import 'pretention/view/splash/splash_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +14,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(useMaterial3: true, fontFamily: 'Cairo'),
-      home: const HomeView(),
+      home: const SplashView(),
+      builder: (context, child) {
+        return Directionality(
+          textDirection: TextDirection.rtl,
+          child: child!,
+        );
+      },
     );
   }
 }

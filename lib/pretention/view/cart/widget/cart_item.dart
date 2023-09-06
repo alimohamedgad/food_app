@@ -1,20 +1,26 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:food_app/btm.dart';
+import 'package:food_app/pretention/view/cart/cart_view.dart';
 
+import '../../../../core/Shared/increment_decrement.dart';
 import '../../../../core/styles/app_styles.dart';
-import '../../../../data/model/food.dart';
+import '../../../../data/model/food_model.dart';
 import 'cart_quantity.dart';
 
-class CartItem extends StatelessWidget {
+class CartItem extends StatefulWidget {
   const CartItem({
     Key? key,
     required this.foodItem,
-    required this.index,
   }) : super(key: key);
 
   final FoodModel foodItem;
-  final int index;
 
+  @override
+  State<CartItem> createState() => _CartItemState();
+}
+
+class _CartItemState extends State<CartItem> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -22,7 +28,7 @@ class CartItem extends StatelessWidget {
       child: Row(
         children: [
           Image.asset(
-            foodItem.image,
+            widget.foodItem.image,
             width: 100,
             height: 100,
           ),
@@ -33,20 +39,73 @@ class CartItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  foodItem.nameFood,
+                  widget.foodItem.nameFood,
                   style: Styles.style20,
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'جنية ${foodItem.mainPrice} ',
+                  'جنية ${widget.foodItem.price} ',
                   style: Styles.style18,
                 ),
                 Text(
-                  ' ${foodItem.bigSize} ',
+                  ' ${widget.foodItem.size} ',
                   style: Styles.style18,
                 ),
                 const SizedBox(height: 8),
-                const CartQuantity(),
+                Padding(
+                  padding: const EdgeInsets.only(right: 14),
+                  child: Row(
+                    children: [
+                      IncrementAndDecrement(
+                        icon: Icons.remove,
+                        onTap: () {
+                          if (widget.foodItem.quantity == 1) {
+                            return;
+                          } else {
+                            setState(() {
+                              widget.foodItem.quantity =
+                                  widget.foodItem.quantity! - 1;
+                            });
+                          }
+                        },
+                      ),
+                      const SizedBox(width: 10),
+                      Text(
+                        widget.foodItem.quantity.toString(),
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                      const SizedBox(width: 10),
+                      IncrementAndDecrement(
+                          icon: Icons.add,
+                          onTap: () {
+                            setState(() {
+                              widget.foodItem.quantity =
+                                  widget.foodItem.quantity! + 1;
+                            });
+                          }),
+                      const Spacer(),
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            foodCart.remove(widget.foodItem);
+                          });
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const NavBarScreen(),
+                            ),
+                            (route) => false,
+                          );
+                          print(foodCart.length);
+                        },
+                        child: Icon(
+                          Icons.close,
+                          color: Colors.grey.withOpacity(0.9),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
               ],
             ),
           )

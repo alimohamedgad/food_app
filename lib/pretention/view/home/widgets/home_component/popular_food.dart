@@ -1,18 +1,24 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:food_app/core/Shared/test.dart';
+import 'package:food_app/core/app_image/image.dart';
+import 'package:food_app/data/model/food_details.dart';
 
-import '../../../../../data/model/food.dart';
+import '../../../../../data/model/food_model.dart';
 import '../../food_details.dart';
 
-class PopularFood extends StatelessWidget {
+class PopularFood extends StatefulWidget {
   final FoodModel foodItem;
-  final int index;
   const PopularFood({
     Key? key,
     required this.foodItem,
-    required this.index,
   }) : super(key: key);
 
+  @override
+  State<PopularFood> createState() => _PopularFoodState();
+}
+
+class _PopularFoodState extends State<PopularFood> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -21,7 +27,9 @@ class PopularFood extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) {
-              return FoodDetails(foodItem: foodItem, index: index);
+              return FoodDetails(
+                foodItem: widget.foodItem,
+              );
             },
           ),
         );
@@ -43,9 +51,9 @@ class PopularFood extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Text(foodItem.nameFood),
+            Text(widget.foodItem.nameFood),
             Image.asset(
-              foodItem.image,
+              widget.foodItem.image,
               height: 100,
             ),
             const Spacer(),
@@ -53,12 +61,14 @@ class PopularFood extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'جنية ${foodItem.priceAndSize!.map((e) => e.price).first.toString()} ',
+                  '${widget.foodItem.priceAndSize!.map((e) => e.price).first.toString()} جنية ',
                   style: const TextStyle(
                       fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(width: 5),
-                const Icon(Icons.favorite_outline_sharp)
+                GestureDetector(
+                    onTap: () {},
+                    child: const Icon(Icons.favorite_outline_sharp))
               ],
             ),
           ],

@@ -10,7 +10,7 @@ class SearchFieldFilter extends StatelessWidget {
       height: 50,
       child: TextFormField(
         decoration: InputDecoration(
-          hintText: 'Search....',
+          hintText: 'بحث.....',
           suffixIcon: const Icon(Icons.filter_list),
           prefixIcon: const Icon(Icons.search),
           enabledBorder: outlineBorder(),
