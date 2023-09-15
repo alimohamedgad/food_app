@@ -12,7 +12,7 @@ class FoodModel {
   final List<FoodDetailsModel>? priceAndSize;
   final String? size;
   final dynamic price;
-  final bool isFavorite;
+  bool isFavorite;
   int? quantity;
   FoodModel({
     required this.id,
@@ -23,12 +23,12 @@ class FoodModel {
     this.priceAndSize,
     this.size = 'صغير',
     this.price = 0,
-    required this.isFavorite,
+    this.isFavorite = false,
     this.quantity = 1,
   });
 }
 
-List<FoodModel> foodCart = [];
+// List<FoodModel> foodCart = [];
 List<FoodModel> foodData = [
   FoodModel(
     size: 'كبير',
@@ -40,9 +40,9 @@ List<FoodModel> foodData = [
     priceAndSize: [
       FoodDetailsModel(price: 30, size: 'صغير'),
       FoodDetailsModel(price: 45, size: 'وسط'),
-      FoodDetailsModel(price: 65, size: 'كبير'),
+      FoodDetailsModel(price: 0, size: 'كبير'),
     ],
-    isFavorite: true,
+    isFavorite: false,
     price: 30,
   ),
   FoodModel(

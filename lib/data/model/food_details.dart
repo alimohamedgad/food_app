@@ -3,7 +3,7 @@ class FoodDetailsModel {
   final dynamic price;
   final String size;
   FoodDetailsModel({
-    this.price = 'لايوجد',
+    this.price = 0,
     required this.size,
   });
 }

@@ -21,11 +21,11 @@ class AppBarFoodDetails extends StatelessWidget {
           ),
           IconButton(
             onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const CartView(),
-                  ));
+              // Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //       builder: (context) => const CartView(),
+              //     ));
             },
             icon: Icon(Icons.favorite_border),
             color: Colors.black,
