@@ -69,22 +69,20 @@ class _FoodDetailsItemState extends State<FoodDetailsItem> {
   }
 
   void addToCart(CartController cartController) {
-    setState(() {
-      cartController.cart.add(
-        FoodModel(
-          size: widget.foodItem.priceAndSize![selectedIndex].size,
-          price: widget.foodItem.priceAndSize![selectedIndex].price,
-          id: '1',
-          userID: '1',
-          nameFood: widget.foodItem.nameFood,
-          image: widget.foodItem.image,
-          category: widget.foodItem.category,
-          priceAndSize: widget.foodItem.priceAndSize,
-          isFavorite: true,
-          quantity: widget.foodItem.quantity,
-        ),
-      );
-    });
+    cartController.cart.add(
+      FoodModel(
+        size: widget.foodItem.priceAndSize![selectedIndex].size,
+        price: widget.foodItem.priceAndSize![selectedIndex].price,
+        id: '1',
+        userID: '1',
+        nameFood: widget.foodItem.nameFood,
+        image: widget.foodItem.image,
+        category: widget.foodItem.category,
+        priceAndSize: widget.foodItem.priceAndSize,
+        isFavorite: true,
+        quantity: widget.foodItem.quantity,
+      ),
+    );
   }
 
   Widget priceWithSize() {
