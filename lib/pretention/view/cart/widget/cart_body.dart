@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/core/styles/app_styles.dart';
 import 'package:food_app/pretention/controller/cart_controller.dart';
-import 'package:food_app/pretention/view/Invoice/invoice_view.dart';
 import 'package:provider/provider.dart';
 import 'cart_list_view.dart';
 import '../../Invoice/invoice_order.dart';

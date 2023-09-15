@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/pretention/controller/payment_controller.dart';
 import 'package:provider/provider.dart';
-
-import '../../../btm.dart';
 import 'visa_card_view.dart';
 
 class PaymentView extends StatefulWidget {

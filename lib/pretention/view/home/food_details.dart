@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:food_app/core/app_image/image.dart';
 
-import '../../../core/app_color/colors.dart';
 import '../../../data/model/food_model.dart';
 import 'widgets/food_details_component/appbar_food_details.dart';
 import 'widgets/food_details_component/food_details_item.dart';
