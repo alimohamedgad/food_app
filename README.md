@@ -1,5 +1,5 @@
 # Food_app
-# Splash Screen- Homes Screen- Details Screen
+# Splash Screen- Home Screen- Details Screen
 ![home screen](https://github.com/alimohamedgad/food_app/assets/108583289/5c3235bb-5507-41fe-8dcd-e776e5a6b41f)
 
 # Order Screen
