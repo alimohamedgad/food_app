@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:food_app/pretention/controller/cart_cubit/cart_cubit.dart';
 
 import '../../../core/styles/app_styles.dart';
-import '../../controller/cart_controller.dart';
 
 class InvoiceOrder extends StatelessWidget {
   const InvoiceOrder({
     super.key,
-    required this.cartController,
+    required this.cartCubit,
   });
 
-  final CartController cartController;
+  final CartCubit cartCubit;
   @override
   Widget build(BuildContext context) {
     const deliveryPrice = 5;
@@ -32,7 +32,7 @@ class InvoiceOrder extends StatelessWidget {
                 style: Styles.style18,
               ),
               Text(
-                '${cartController.totalPrice(cartController.cart)} جنية',
+                '${cartCubit.totalPrice(cartCubit.cart)} جنية',
                 style: Styles.style18,
               ),
             ],
@@ -59,7 +59,7 @@ class InvoiceOrder extends StatelessWidget {
                 style: Styles.style18,
               ),
               Text(
-                '${cartController.totalPrice(cartController.cart) + deliveryPrice} جنية',
+                '${cartCubit.totalPrice(cartCubit.cart) + deliveryPrice} جنية',
                 style: Styles.style18,
               ),
             ],

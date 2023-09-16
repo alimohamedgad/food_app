@@ -2,34 +2,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
-import 'package:food_app/core/app_image/image.dart';
-import 'package:food_app/pretention/controller/cart_controller.dart';
+import 'package:food_app/pretention/controller/cart_cubit/cart_cubit.dart';
 
 import '../../../../core/Shared/empty_cart.dart';
-import '../../../../core/styles/app_styles.dart';
-import '../../../../data/model/food_model.dart';
 import 'cart_item.dart';
 
 class CartListView extends StatelessWidget {
-  final CartController cartController;
+  final CartCubit cartCubit;
   const CartListView({
     Key? key,
-    required this.cartController,
+    required this.cartCubit,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: cartController.cart.isEmpty
+      child: cartCubit.cart.isEmpty
           ? const EmptyCart()
           : ListView.builder(
-              itemCount: cartController.cart.length,
+              itemCount: cartCubit.cart.length,
               itemBuilder: (context, index) {
-                final foodItem = cartController.cart[index];
+                final foodItem = cartCubit.cart[index];
 
                 return CartItem(
                   foodItem: foodItem,
-                  cartController: cartController,
+                  cartCubit: cartCubit,
                 ).animate(delay: (100 * index).ms).fade().slideX(
                       duration: 300.ms,
                       begin: -1,

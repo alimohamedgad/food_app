@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:food_app/pretention/controller/payment_controller.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food_app/pretention/controller/payment_cubit/payment_cubit.dart';
 import 'package:provider/provider.dart';
 import 'visa_card_view.dart';
+import 'widgets/text_form_field.dart';
 
 class PaymentView extends StatefulWidget {
   const PaymentView({super.key});
@@ -18,7 +20,7 @@ class _PaymentViewState extends State<PaymentView> {
 
   @override
   void initState() {
-    context.read<PaymentController>().getAuthPayment();
+    context.read<PaymentCubit>().getAuthPayment();
     super.initState();
   }
 
@@ -28,9 +30,21 @@ class _PaymentViewState extends State<PaymentView> {
       appBar: AppBar(
         title: const Text('Payment Integration'),
       ),
-      body: Consumer<PaymentController>(
-        builder: (context, value, child) {
-          final payment = context.read<PaymentController>();
+      body: BlocConsumer<PaymentCubit, PaymentState>(
+        listener: (context, state) {
+          if (state is GetPaymentRequestSuccess) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => VisaCardView(
+                  finalToken: context.read<PaymentCubit>().finalToken,
+                ),
+              ),
+            );
+          }
+        },
+        builder: (context, child) {
+          final payment = context.read<PaymentCubit>();
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: ListView(
@@ -71,15 +85,15 @@ class _PaymentViewState extends State<PaymentView> {
                         name: nameController.text,
                         phone: phoneController.text,
                       );
-                      if (context.mounted) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                VisaCardView(finalToken: value.finalToken),
-                          ),
-                        );
-                      }
+                      // if (context.mounted) {
+                      //   Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //       builder: (context) =>
+                      //           VisaCardView(finalToken: payment.finalToken),
+                      //     ),
+                      //   );
+                      // }
                     },
                     child: const Text('Payment'))
               ],

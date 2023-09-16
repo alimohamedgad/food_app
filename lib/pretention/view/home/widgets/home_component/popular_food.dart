@@ -1,8 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:food_app/pretention/controller/home_controller.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food_app/pretention/controller/home_cubit/home_cubit.dart';
 
 import '../../../../../data/model/food_model.dart';
 import '../../food_details.dart';
@@ -61,11 +61,11 @@ class PopularFood extends StatelessWidget {
                       fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(width: 5),
-                Consumer<HomeController>(
-                  builder: (context, value, child) {
+                BlocBuilder<HomeCubit, HomeState>(
+                  builder: (context, child) {
                     return GestureDetector(
                       onTap: () {
-                        context.read<HomeController>().addToFavorite(foodItem);
+                        context.read<HomeCubit>().addToFavorite(foodItem);
                       },
                       child: foodItem.isFavorite
                           ? const Icon(

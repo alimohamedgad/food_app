@@ -1,22 +1,28 @@
-import 'package:flutter/material.dart';
-import 'package:food_app/data/model/food_model.dart';
+import 'package:bloc/bloc.dart';
+import 'package:meta/meta.dart';
 
-class CartController extends ChangeNotifier {
+import '../../../data/model/food_model.dart';
+
+part 'cart_state.dart';
+
+class CartCubit extends Cubit<CartState> {
+  CartCubit() : super(CartInitial());
+
   List<FoodModel> cart = [];
 
   void increment(FoodModel food) {
     food.quantity = food.quantity! + 1;
-    notifyListeners();
+    emit(Increment());
   }
 
   void addToCart(FoodModel cartModel) {
     cart.add(cartModel);
-    notifyListeners();
+    emit(AddToCart());
   }
 
   void removeFromCart(FoodModel cartModel) {
     cart.remove(cartModel);
-    notifyListeners();
+    emit(RemoveFromCart());
   }
 
   void decrement(FoodModel food) {
@@ -25,7 +31,7 @@ class CartController extends ChangeNotifier {
     } else {
       food.quantity = food.quantity! - 1;
     }
-    notifyListeners();
+    emit(Decrement());
   }
 
   totalPrice(List<FoodModel> cartList) {

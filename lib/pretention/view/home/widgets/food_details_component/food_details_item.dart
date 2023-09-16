@@ -1,8 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:food_app/pretention/controller/cart_controller.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food_app/pretention/controller/cart_cubit/cart_cubit.dart';
 import '../../../../../data/model/food_model.dart';
 import 'add_to_cart.dart';
 import 'food_ingredients.dart';
@@ -51,10 +51,10 @@ class _FoodDetailsItemState extends State<FoodDetailsItem> {
             foodItem: widget.foodItem,
             selectedIndex: selectedIndex,
           ),
-          Consumer(
-            builder: (context, value, child) {
-              final cartController = Provider.of<CartController>(context);
-              return AddToCart(
+          BlocBuilder<CartCubit, CartState>(
+            builder: (context, child) {
+              final cartController = BlocProvider.of<CartCubit>(context);
+              return AddToCartButton(
                 text: 'Add To Cart',
                 onTap: () {
                   addToCart(cartController);
@@ -68,7 +68,7 @@ class _FoodDetailsItemState extends State<FoodDetailsItem> {
     );
   }
 
-  void addToCart(CartController cartController) {
+  void addToCart(CartCubit cartController) {
     cartController.cart.add(
       FoodModel(
         size: widget.foodItem.priceAndSize![selectedIndex].size,

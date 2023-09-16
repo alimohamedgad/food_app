@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:food_app/pretention/view/home/home_view.dart';
 
 import '../../../btm.dart';
@@ -14,7 +15,7 @@ class SplashView extends StatefulWidget {
 class _SplashViewState extends State<SplashView> {
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 2), () {
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
@@ -35,18 +36,17 @@ class _SplashViewState extends State<SplashView> {
         child: Stack(
           children: [
             SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              child: Image.asset(
-                AppImage.splashImage,
-                fit: BoxFit.fill,
-              ),
-            ),
-            const Column(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                child: Image.asset(
+                  AppImage.splashImage,
+                  fit: BoxFit.fill,
+                )),
+            Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Align(
+                const Align(
                   alignment: Alignment.center,
                   child: Text(
                     'فرانشيسكوا',
@@ -57,7 +57,10 @@ class _SplashViewState extends State<SplashView> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
+                ).animate().fade().scale(
+                      duration: 650.ms,
+                      curve: Curves.fastOutSlowIn,
+                    ),
               ],
             )
           ],

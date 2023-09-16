@@ -2,13 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
-
 import '../../../../../core/app_color/colors.dart';
 
-class AddToCart extends StatelessWidget {
+class AddToCartButton extends StatelessWidget {
   final Function() onTap;
   final String text;
-  const AddToCart({
+  const AddToCartButton({
     Key? key,
     required this.onTap,
     required this.text,

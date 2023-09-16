@@ -1,11 +1,17 @@
-import 'package:flutter/material.dart';
-import 'package:food_app/data/data_source/api_services.dart';
+import 'package:bloc/bloc.dart';
+import 'package:meta/meta.dart';
 
-import '../../core/api/constance.dart';
+import '../../../core/api/constance.dart';
+import '../../../data/data_source/api_services.dart';
 
-class PaymentController extends ChangeNotifier {
+part 'payment_state.dart';
+
+class PaymentCubit extends Cubit<PaymentState> {
+  PaymentCubit() : super(PaymentInitial());
+
   String firstToken = '';
   Future<void> getAuthPayment() async {
+    emit(PaymentAuthLoading());
     await DioHelper.postData(
       url: ApiUrl.baseUrl + ApiUrl.authTokenUrl,
       data: {
@@ -14,9 +20,9 @@ class PaymentController extends ChangeNotifier {
     ).then((value) {
       firstToken = value.data['token'];
       print('First Token $firstToken');
-      notifyListeners();
+      emit(PaymentAuthSuccess());
     }).catchError((error) {
-      notifyListeners();
+      emit(PaymentAuthFailure());
     });
   }
 
@@ -30,6 +36,8 @@ class PaymentController extends ChangeNotifier {
     required String phone,
     required String price,
   }) async {
+    emit(GetOrderIdLoading());
+
     DioHelper.postData(
       url: ApiUrl.baseUrl + ApiUrl.orderID,
       data: {
@@ -47,12 +55,13 @@ class PaymentController extends ChangeNotifier {
         phone: phone,
         price: price,
       );
+      emit(GetOrderIdSuccess());
 
       print('Order $orderID');
-      notifyListeners();
     }).catchError((error) {
+      emit(GetOrderIdFailure());
+
       print(error);
-      notifyListeners();
     });
   }
 
@@ -62,6 +71,8 @@ class PaymentController extends ChangeNotifier {
     required String phone,
     required String price,
   }) async {
+    emit(GetPaymentRequestLoading());
+
     DioHelper.postData(
       url: ApiUrl.baseUrl + ApiUrl.paymentKeyRequest,
       data: {
@@ -90,10 +101,10 @@ class PaymentController extends ChangeNotifier {
     ).then((value) {
       finalToken = value.data['token'];
       print('finalToken $finalToken');
-      notifyListeners();
+      emit(GetPaymentRequestSuccess());
     }).catchError((error) {
       print(error.toString());
-      notifyListeners();
+      emit(GetPaymentRequestFailure());
     });
   }
 }

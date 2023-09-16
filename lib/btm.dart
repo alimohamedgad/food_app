@@ -42,8 +42,8 @@ class _NavBarScreenState extends State<NavBarScreen> {
             label: 'طلباتي',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.favorite_outline),
-            label: 'المفضله',
+            icon: Icon(Icons.settings),
+            label: 'الاعدادات',
           ),
         ],
       ),

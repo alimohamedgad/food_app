@@ -48,7 +48,7 @@ class FoodDetails extends StatelessWidget {
                 height: 150,
               ),
             ).animate().fade().scale(
-                  duration: 650.ms,
+                  duration: 450.ms,
                   curve: Curves.fastOutSlowIn,
                 ),
           ],

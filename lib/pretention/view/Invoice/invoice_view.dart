@@ -1,16 +1,15 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-
-import 'package:food_app/pretention/controller/cart_controller.dart';
+import 'package:food_app/pretention/controller/cart_cubit/cart_cubit.dart';
 import 'package:food_app/pretention/view/Invoice/invoice_order.dart';
 
 import '../../../core/styles/app_styles.dart';
 
 class InvoiceView extends StatelessWidget {
-  final CartController cartController;
+  final CartCubit cartCubit;
   const InvoiceView({
     Key? key,
-    required this.cartController,
+    required this.cartCubit,
   }) : super(key: key);
 
   @override
@@ -21,16 +20,16 @@ class InvoiceView extends StatelessWidget {
         children: [
           Expanded(
             child: ListView.builder(
-              itemCount: cartController.cart.length,
+              itemCount: cartCubit.cart.length,
               itemBuilder: (context, index) {
-                final cartItem = cartController.cart[index];
+                final cartItem = cartCubit.cart[index];
                 return ListTile(
                   title: Text(
                     cartItem.nameFood,
                     style: Styles.style20,
                   ),
                   trailing: Text(
-                    '${cartController.totalPrice(cartController.cart)} جنية',
+                    '${cartCubit.totalPrice(cartCubit.cart)} جنية',
                     style: Styles.style16,
                   ),
                   subtitle: Text(
@@ -41,7 +40,7 @@ class InvoiceView extends StatelessWidget {
               },
             ),
           ),
-          InvoiceOrder(cartController: cartController),
+          InvoiceOrder(cartCubit: cartCubit),
         ],
       ),
     );

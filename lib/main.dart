@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:food_app/pretention/controller/cart_controller.dart';
-import 'package:food_app/pretention/controller/home_controller.dart';
-import 'package:food_app/pretention/controller/payment_controller.dart';
-import 'package:provider/provider.dart';
-import 'pretention/view/payment/payment_view.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food_app/pretention/controller/home_cubit/home_cubit.dart';
+import 'pretention/controller/cart_cubit/cart_cubit.dart';
+import 'pretention/controller/payment_cubit/payment_cubit.dart';
 import 'pretention/view/splash/splash_view.dart';
 
 void main() {
@@ -16,16 +15,16 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
+    return MultiBlocProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (context) => CartController(),
+        BlocProvider(
+          create: (context) => CartCubit(),
         ),
-        ChangeNotifierProvider(
-          create: (context) => HomeController(),
+        BlocProvider(
+          create: (context) => HomeCubit(),
         ),
-        ChangeNotifierProvider(
-          create: (context) => PaymentController(),
+        BlocProvider(
+          create: (context) => PaymentCubit(),
         ),
       ],
       child: MaterialApp(
