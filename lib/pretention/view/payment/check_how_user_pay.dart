@@ -30,129 +30,131 @@ class _CheckHowUserWillPayState extends State<CheckHowUserWillPay> {
   String payByVisa = 'الدفع اونلاين';
   String? pay;
 
+  // @override
+  // void dispose() {
+  //   phoneController.dispose();
+  //   priceController.dispose();
+  //   phoneController.dispose();
+  //   streetController.dispose();
+  //   super.dispose();
+  // }
   @override
-  void dispose() {
-    phoneController.dispose();
-    priceController.dispose();
-    phoneController.dispose();
-    streetController.dispose();
-    super.dispose();
+  void initState() {
+    context.read<PaymentCubit>().getAuthPayment();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => PaymentCubit()..getAuthPayment(),
-      child: Scaffold(
-        appBar: AppBar(),
-        body: ListView(
-          children: [
-            PaymentTextFormField(
-              controller: nameController,
-              hintText: 'الاسم',
-            ),
-            PaymentTextFormField(
-              controller: phoneController,
-              hintText: 'الهاتف',
-            ),
-            PaymentTextFormField(
-              controller: streetController,
-              hintText: 'المكان',
-            ),
-            PaymentTextFormField(
-              controller: priceController,
-              hintText:
-                  widget.cartCubit.totalPrice(widget.cartCubit.cart).toString(),
-            ),
-            RadioListTile(
-              value: payWithoutVisa,
-              groupValue: pay,
-              title: Text(payWithoutVisa),
-              onChanged: (v) {
-                setState(() {
-                  pay = v!;
-                });
-              },
-            ),
-            RadioListTile(
-              title: Text(payByVisa),
-              value: payByVisa,
-              groupValue: pay,
-              onChanged: (v) {
-                setState(() {
-                  pay = v!;
-                });
-              },
-            ),
-            BlocConsumer<PaymentCubit, PaymentState>(
-              listener: (context, state) {
-                if (state is GetPaymentRequestSuccess) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => VisaCardView(
-                        finalToken: context.read<PaymentCubit>().finalToken,
-                      ),
-                    ),
-                  );
-                }
-              },
-              builder: (context, state) {
-                final payCubit = context.read<PaymentCubit>();
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.deepOrange),
-                    onPressed: pay == null
-                        ? () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('يرجي اختيار وسيلة الدفع'),
-                              ),
+    return Scaffold(
+      appBar: AppBar(),
+      body: BlocConsumer<PaymentCubit, PaymentState>(
+        listener: (context, state) {
+          if (state is GetPaymentRequestSuccess) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => VisaCardView(
+                  finalToken: context.read<PaymentCubit>().finalToken,
+                ),
+              ),
+            );
+          }
+        },
+        builder: (context, state) {
+          final payment = context.read<PaymentCubit>();
+          final totalPrice =
+              widget.cartCubit.totalPrice(widget.cartCubit.cart) + 5;
+          return ListView(
+            children: [
+              PaymentTextFormField(
+                controller: nameController,
+                hintText: 'الاسم',
+              ),
+              PaymentTextFormField(
+                controller: phoneController,
+                hintText: 'الهاتف',
+              ),
+              PaymentTextFormField(
+                controller: streetController,
+                hintText: 'المكان',
+              ),
+              PaymentTextFormField(
+                controller: priceController,
+                hintText: totalPrice.toString(),
+              ),
+              RadioListTile(
+                value: payWithoutVisa,
+                groupValue: pay,
+                title: Text(payWithoutVisa),
+                onChanged: (v) {
+                  setState(() {
+                    pay = v!;
+                  });
+                },
+              ),
+              RadioListTile(
+                title: Text(payByVisa),
+                value: payByVisa,
+                groupValue: pay,
+                onChanged: (v) {
+                  setState(() {
+                    pay = v!;
+                  });
+                },
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.deepOrange),
+                  onPressed: pay == null
+                      ? () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('يرجي اختيار وسيلة الدفع'),
+                            ),
+                          );
+                        }
+                      : () async {
+                          if (pay == payByVisa) {
+                            await payment.getOrderId(
+                              price: totalPrice.toString(),
+                              // email: streetController.text,
+                              // name: nameController.text,
+                              // phone: phoneController.text,
                             );
-                            print('eeeeeee');
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => const PaymentView(),
+                            //   ),
+                            // );
+                          } else {
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const NavBarScreen(),
+                              ),
+                              (route) => false,
+                            );
                           }
-                        : () async {
-                            await paymentOrder(payCubit);
-                          },
-                    child: Text(
-                      'استكمال الطلب',
-                      style: Styles.style18.copyWith(color: Colors.white),
-                    ),
-                  ),
-                );
-              },
-            )
-          ],
-        ),
+                        },
+                  child: state is GetOrderIdLoading
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                          color: Colors.white,
+                        ))
+                      : Text(
+                          'استكمال الطلب',
+                          style: Styles.style18.copyWith(color: Colors.white),
+                        ),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
-  }
-
-  Future<void> paymentOrder(PaymentCubit payCubit) async {
-    if (pay == payByVisa) {
-      await payCubit.getOrderId(
-        price: '${widget.cartCubit.totalPrice(widget.cartCubit.cart) + 5}',
-        email: nameController.text,
-        name: nameController.text,
-        phone: phoneController.text,
-      );
-      // Navigator.push(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (context) => PaymentView(
-      //         // finalToken: context.read<PaymentCubit>().finalToken,
-      //         ),
-      //   ),
-      // );
-    } else {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const NavBarScreen(),
-        ),
-      );
-    }
   }
 }

@@ -23,6 +23,7 @@ class PaymentCubit extends Cubit<PaymentState> {
       emit(PaymentAuthSuccess());
     }).catchError((error) {
       emit(PaymentAuthFailure());
+      print(error);
     });
   }
 
@@ -31,14 +32,11 @@ class PaymentCubit extends Cubit<PaymentState> {
   String finalToken = '';
 
   Future<void> getOrderId({
-    required String name,
-    required String email,
-    required String phone,
-    required String price,
+    required dynamic price,
   }) async {
     emit(GetOrderIdLoading());
 
-    DioHelper.postData(
+    await DioHelper.postData(
       url: ApiUrl.baseUrl + ApiUrl.orderID,
       data: {
         "auth_token": firstToken,
@@ -49,26 +47,19 @@ class PaymentCubit extends Cubit<PaymentState> {
       },
     ).then((value) async {
       orderID = value.data['id'];
-      await getPaymentRequest(
-        name: name,
-        email: email,
-        phone: phone,
+      getPaymentRequest(
         price: price,
       );
-      emit(GetOrderIdSuccess());
 
       print('Order $orderID');
+      emit(GetOrderIdSuccess());
     }).catchError((error) {
-      emit(GetOrderIdFailure());
-
       print(error);
+      emit(GetOrderIdFailure());
     });
   }
 
   Future<void> getPaymentRequest({
-    required String name,
-    required String email,
-    required String phone,
     required String price,
   }) async {
     emit(GetPaymentRequestLoading());
@@ -82,12 +73,12 @@ class PaymentCubit extends Cubit<PaymentState> {
         "order_id": orderID,
         "billing_data": {
           "apartment": "NA",
-          "email": email,
+          "email": "NA",
           "floor": "NA",
-          "first_name": name,
-          "street": "NA",
+          "first_name": "NA",
+          "street": "phone",
           "building": "NA",
-          "phone_number": phone,
+          "phone_number": "NA",
           "shipping_method": "NA",
           "postal_code": "NA",
           "city": "NA",

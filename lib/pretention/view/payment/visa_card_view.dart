@@ -17,11 +17,13 @@ class _VisaCardViewState extends State<VisaCardView> {
   final controller = WebViewController();
 
   Future<void> getUrl(String token) async {
+    String url2 =
+        'https://accept.paymob.com/api/acceptance/iframes/787144?payment_token=$token';
     String url =
         'https://accept.paymob.com/api/acceptance/iframes/787143?payment_token=$token';
     controller
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..loadRequest(Uri.parse(url));
+      ..loadRequest(Uri.parse(url2));
   }
 
   @override
